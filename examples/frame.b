@@ -1,0 +1,6 @@
+MOV *1 &48 &1
+FRAME
+MOV *1 &49 &1
+OUT *1 &1
+DEFRAME
+OUT *1 &1
