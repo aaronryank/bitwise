@@ -18,7 +18,7 @@ int line;
 
 int main(int argc, char **argv)
 {
-    FILE *in = (argc == 2) ? fopen(argv[1],"r") : NULL;
+    FILE *in = (argc >= 2) ? fopen(argv[1],"r") : NULL;
 
     if (!in) {
         fprintf(stderr,"Invalid source file!");
@@ -41,7 +41,8 @@ int main(int argc, char **argv)
         char *arg2 = strtok(NULL," ");
         char *arg3 = strtok(NULL," ");
 
-        //printf("%s %s %s %s\n",cmd,arg1,arg2,arg3);
+        if (argv[2])
+            printf("%s %s %s %s\n",cmd,arg1,arg2,arg3);
 
         exec_cmd(cmd,arg1,arg2,arg3);
 
@@ -58,6 +59,8 @@ int _register(char *index)
         return frame_registers[cur_frame][_atoi(index)];
     else if (index[0] == '@')
         return labels[_atoi(index)];
+    else if (index[0] == '#')
+        return registers[registers[_atoi(index)]];
     else
         return registers[atoi(index)];
 }
@@ -84,6 +87,8 @@ int exec_cmd(char *cmd, char *arg1, char *arg2, char *arg3)
                 registers[atoi(arg1)] = _register(arg2);
             else if (type(arg1) == 1)
                 frame_registers[cur_frame][_atoi(arg1)] = _register(arg2);
+            else if (type(arg1) == 4)
+                registers[registers[_atoi(arg1)]] = _register(arg2);
         }
         return 0;
     }
@@ -115,6 +120,8 @@ int exec_cmd(char *cmd, char *arg1, char *arg2, char *arg3)
                 frame_registers[cur_frame][_atoi(arg1)] = x;
             else if (type(arg1) == 0)
                 registers[atoi(arg1)] = x;
+            else if (type(arg1) == 4)
+                registers[registers[_atoi(arg1)]] = x;
             result = x != -1;
         }   
     }
@@ -143,6 +150,8 @@ int exec_cmd(char *cmd, char *arg1, char *arg2, char *arg3)
         registers[atoi(arg3)] = result;
     else if (type(arg3) == 1)
         frame_registers[cur_frame][_atoi(arg3)] = result;
+    else if (type(arg3) == 4)
+        registers[registers[_atoi(arg3)]] = result;
 
     return 0;
 }
@@ -169,6 +178,9 @@ int type(char *val)
         return 2;
     else if (*val == '@')
         return 3;
+    else if (*val == '#')
+        return 4;
+    return 0;
 }
 
 int _atoi(char *str)
