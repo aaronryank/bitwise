@@ -193,7 +193,7 @@ int type(char *val)
         return 3;
     else if (*val == '#')
         return 4;
-    return 0;
+    return -2;
 }
 
 int _atoi(char *str)
