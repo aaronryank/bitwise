@@ -18,7 +18,7 @@ int line;
 
 int main(int argc, char **argv)
 {
-    FILE *in = (argc >= 2) ? fopen(argv[1],"r") : NULL;
+    FILE *in = (argc >= 2) ? fopen(argv[1],"r") : stdin;
 
     if (!in) {
         fprintf(stderr,"Invalid source file!");
@@ -41,8 +41,7 @@ int main(int argc, char **argv)
         char *arg2 = strtok(NULL," ");
         char *arg3 = strtok(NULL," ");
 
-        if (argv[2])
-            printf("%s %s %s %s\n",cmd,arg1,arg2,arg3);
+        //printf("%s %s %s %s\n",cmd,arg1,arg2,arg3);
 
         exec_cmd(cmd,arg1,arg2,arg3);
 
@@ -109,9 +108,23 @@ int exec_cmd(char *cmd, char *arg1, char *arg2, char *arg3)
         labels[_register(arg1)] = line;
 
     else if (!strcmp(cmd,"not") || !strcmp(cmd,"NOT")) {
-        result = !_register(arg1);
+        result = ~_register(arg1);
         arg3 = strdup(arg2);
     }
+
+    else if (!strcmp(cmd,"lnot") || !strcmp(cmd,"LNOT")) {
+        result = ~_register(arg1);
+        arg3 = strdup(arg2);
+    }
+
+    else if (!strcmp(cmd,"lsr") || !strcmp(cmd,"LSR"))
+        result = (int) ((unsigned int) _register(arg1) >> _register(arg2));    // https://stackoverflow.com/a/5253269/6850771
+
+    else if (!strcmp(cmd,"lor") || !strcmp(cmd,"LOR"))
+        result = _register(arg1) || _register(arg2);
+
+    else if (!strcmp(cmd,"land") || !strcmp(cmd,"LAND"))
+        result = _register(arg1) && _register(arg2);
 
     else if (!strcmp(cmd,"in") || !strcmp(cmd,"IN")) {
         if (_register(arg2)) {
