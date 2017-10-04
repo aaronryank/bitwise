@@ -27,7 +27,7 @@ struct {
   int labels[100];
   int32_t func_registers[1000];
 } functions[200];
-int function_depth[200];
+int function_depth[201];
 int function_count, cur_fdepth;
 
 #define CUR_FUNC function_depth[cur_fdepth]
@@ -293,14 +293,15 @@ int call(int cmd, char *arg1, char *arg2, char *arg3)
     cur_fdepth++;
 
     char *_cmd, *_arg1, *_arg2, *_arg3, *t;
-    for (FLINE = 0; FLINE <= functions[cmd].lines; FLINE++) {
+    for (FLINE = 0; FLINE <= functions[cmd].lines; FLINE++)
+    {
         t = strdup(functions[cmd].code[FLINE]);
         _cmd = strtok(t," ");
         _arg1 = strtok(NULL," ");
         _arg2 = strtok(NULL," ");
         _arg3 = strtok(NULL," ");
 
-        //printf("executing line %d of function %d: %s %s %s %s\n",FLINE,cmd,_cmd,_arg1,_arg2,_arg3);
+        //printf("%d: executing line %d of function %d: %s %s %s %s\n",cur_fdepth,FLINE,cmd,_cmd,_arg1,_arg2,_arg3);
         exec_cmd(_cmd,_arg1,_arg2,_arg3);
 
         if (!strcmp(_cmd,"ret") || !strcmp(_cmd,"RET"))
@@ -310,11 +311,14 @@ int call(int cmd, char *arg1, char *arg2, char *arg3)
     }
 
     int retval = _register(_arg1);
+    //printf("%d: returning %d\n",cur_fdepth,retval);
     memset(&FUNC_REGISTERS,0,sizeof(int)*1000);
     free(t);
     frame(-1);
-    func = CUR_FUNC = 0;
+    CUR_FUNC = 0;
     cur_fdepth--;
+    if (!cur_fdepth)
+        func = 0;
     return retval;
 }
 
