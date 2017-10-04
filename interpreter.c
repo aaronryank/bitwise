@@ -75,9 +75,8 @@ int main(int argc, char **argv)
     }
     function_count = cur_func;
     int lines = line;
-    line = 0;
 
-    while (line < lines) {
+    for (line = 0; line < lines; line++) {
         char *t = strdup(s[line]);
         char *cmd = strtok(t," ");
         char *arg1 = strtok(NULL," ");
@@ -89,7 +88,6 @@ int main(int argc, char **argv)
         exec_cmd(cmd,arg1,arg2,arg3);
 
         free(t);
-        line++;
     }
 }
 
