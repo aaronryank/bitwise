@@ -173,12 +173,6 @@ int exec_cmd(char *cmd, char *arg1, char *arg2, char *arg3)
     else if (!strcmp(cmd,"lsr") || !strcmp(cmd,"LSR"))
         result = (int) ((unsigned int) _register(arg1) >> _register(arg2));    // https://stackoverflow.com/a/5253269/6850771
 
-    else if (!strcmp(cmd,"lor") || !strcmp(cmd,"LOR"))
-        result = _register(arg1) || _register(arg2);
-
-    else if (!strcmp(cmd,"land") || !strcmp(cmd,"LAND"))
-        result = _register(arg1) && _register(arg2);
-
     else if (!strcmp(cmd,"in") || !strcmp(cmd,"IN")) {
         if (_register(arg2)) {
             int x = getchar();
