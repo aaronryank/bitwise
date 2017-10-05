@@ -2,6 +2,8 @@
 
     |  command  |  arguments  |  description                                                                  |
     -----------------------------------------------------------------------------------------------------------
+    |  IN       |  3          |  read a character into arg1 if arg2 nonzero, store result in arg3             |
+    |  OUT      |  3          |  print arg1 as ASCII if arg2 nonzero, store result in arg3                    |
     |  AND      |  3          |  compute bitwise AND of arg1 and arg2, store result in arg3                   |
     |  OR       |  3          |  compute bitwise OR of arg1 and arg2, store result in arg3                    |
     |  XOR      |  3          |  compute bitwise EXCLUSIVE OR of arg1 and arg2, store result in arg3          |
@@ -25,6 +27,14 @@ Argument types:
  - `*1` - frame register 1
  - `@1` - label 1
  - `-1` - immediately discarded 1
+
+# functions
+
+    .FUNC_NAME:
+    ....
+    RET RETURN_VALUE
+
+Call as you would any builtin function.
 
 # notes
 
