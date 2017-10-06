@@ -9,6 +9,7 @@
     |  XOR      |  3          |  compute bitwise EXCLUSIVE OR of arg1 and arg2, store result in arg3          |
     |  SL       |  3          |  shift arg1 left by arg2 places, store result in arg3                         |
     |  SR       |  3          |  shift arg1 right by arg2 places, store result in arg3                        |
+    |  LSR      |  3          |  logical-shift arg1 right by arg2 places, store result in arg3                |
     |  MOV      |  3          |  move arg2 into arg1 if arg3 is nonzero                                       |
     |  JMP      |  2          |  jump arg1 lines in the code (or to the point in label arg1) if arg2 nonzero  |
     |  NOT      |  2          |  compute logical NOT of arg1, store result in arg2                            |
