@@ -193,11 +193,6 @@ int exec_cmd(char *cmd, char *arg1, char *arg2, char *arg3)
             result = putchar(_register(arg1));
     }
 
-    else if (!strcmp(cmd,"outi") || !strcmp(cmd,"OUTI")) {
-        if (_register(arg2))
-            result = printf("%d ",_register(arg1));
-    }
-
     else if (!strcmp(cmd,"frame") || !strcmp(cmd,"FRAME"))
         frame(1);
 
@@ -206,11 +201,6 @@ int exec_cmd(char *cmd, char *arg1, char *arg2, char *arg3)
 
     else if (!strcmp(cmd,"ret") || !strcmp(cmd,"RET"))
         return 0;
-
-    else if (!strcmp(cmd,"__lnot") || !strcmp(cmd,"__LNOT")) {
-        result = !_register(arg1);
-        arg3 = strdup(arg2);
-    }
 
     else {
         int i, called;
