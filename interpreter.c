@@ -47,6 +47,9 @@ int main(int argc, char **argv)
     char s[1000][500] = {0};
     char t[500] = {0};
     while (fgets(t,499,in)) {
+        if (!t)
+            continue;
+
         if (strchr(t,'.') == t && strchr(t,':') == t+strlen(t)-2) {   // -2 due to newline
             func = 1;
             fline = 0;
@@ -113,7 +116,9 @@ int exec_cmd(char *cmd, char *arg1, char *arg2, char *arg3)
 {
     int result = 0, unrecognized = 0;
 
-    if (!cmd || !strlen(cmd))
+    if (!cmd)
+        return -1;
+    if (!strlen(cmd))
         return -1;
 
     if (!strcmp(cmd,"xor") || !strcmp(cmd,"XOR"))
@@ -210,10 +215,12 @@ int exec_cmd(char *cmd, char *arg1, char *arg2, char *arg3)
                 called = 1;
             }
         }
-        if (!arg2)
-            arg2 = strdup(arg1);
-        if (!arg3)
-            arg3 = strdup(arg2);
+        if (arg1) {
+            if (!arg2)
+                arg2 = strdup(arg1);
+            if (!arg3)
+                arg3 = strdup(arg2);
+        }
         if (!called)
             unrecognized = 1;
     }
